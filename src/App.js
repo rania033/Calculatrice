@@ -6,28 +6,49 @@ function App() {
   const resultRef = useRef(null);
   const [result, setResult] = useState(0);
 
+  function getInputValue() {
+    const value = Number(inputRef.current.value);
+    if (isNaN(value)) {
+      alert("Veuillez entrer un nombre valide !");
+      return null;
+    }
+    return value;
+  }
+
   function plus(e) {
     e.preventDefault();
-    setResult((prevResult) => prevResult + Number(inputRef.current.value));
+    const value = getInputValue();
+    if (value !== null) {
+      setResult((prevResult) => prevResult + value);
+    }
   }
 
   function minus(e) {
     e.preventDefault();
-    setResult((prevResult) => prevResult - Number(inputRef.current.value));
+    const value = getInputValue();
+    if (value !== null) {
+      setResult((prevResult) => prevResult - value);
+    }
   }
 
   function times(e) {
     e.preventDefault();
-    setResult((prevResult) => prevResult * Number(inputRef.current.value));
+    const value = getInputValue();
+    if (value !== null) {
+      setResult((prevResult) => prevResult * value);
+    }
   }
 
   function divide(e) {
     e.preventDefault();
-    const value = Number(inputRef.current.value);
+    const value = getInputValue();
+    if (value === null) return;
+
     if (value === 0) {
       alert("Division par zéro impossible !");
       return;
     }
+
     setResult((prevResult) => prevResult / value);
   }
 
@@ -47,11 +68,8 @@ function App() {
         <h1>Simplest Working Calculator</h1>
       </div>
       <form>
-        <p ref={resultRef}>
-          {result}
-        </p>
+        <p ref={resultRef}>{result}</p>
         <input
-          pattern="[0-9]"
           ref={inputRef}
           type="number"
           placeholder="Type a number"
